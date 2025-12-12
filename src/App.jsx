@@ -68,7 +68,7 @@ function App() {
                     />
                 </motion.div>
 
-                <div className="space-y-3">
+                <div className="space-y-3 mb-9">
                     <h1 className="text-3xl lg:text-5xl font-bold text-white tracking-tight leading-tight">{currentSong?.title || "Synthetic Dreams"}</h1>
                     <p className="text-base lg:text-xl text-gray-400 font-medium">{currentSong?.artist || "Ketsa (FMA Demo)"}</p>
                 </div>
