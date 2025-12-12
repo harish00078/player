@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Play, Pause, SkipForward, SkipBack, Volume2, Heart, MoreHorizontal, Music2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AudioPlayer from './components/AudioPlayer';
 import ThreeScene from './components/ThreeScene';
 import { playPause, nextSong, prevSong, setVolume, setActiveSong } from './features/playerSlice';
@@ -37,10 +37,10 @@ function App() {
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10 w-full max-w-[1440px] h-[90vh] p-4 lg:p-6 flex gap-4 lg:gap-6">
+      <div className="relative z-10 w-full max-w-[1440px] h-[90vh] p-4 lg:p-6 flex gap-4 lg:gap-8">
         
         {/* LEFT PANEL: PLAYER FOCUS */}
-        <div className="flex-1 bg-[#0a0a0a]/80 backdrop-blur-3xl rounded-[2rem] border border-white/5 p-8 lg:p-10 flex flex-col relative overflow-hidden">
+        <div className="flex-1 bg-[#0a0a0a]/90 backdrop-blur-3xl rounded-[2.5rem] border border-white/5 p-8 lg:p-12 flex flex-col relative overflow-hidden shadow-2xl">
             
             {/* Header */}
             <div className="relative flex justify-between items-center mb-6">
@@ -53,45 +53,37 @@ function App() {
                 </button>
             </div>
 
-            {/* Main Visual - Album Art / Empty State */}
-            <div className="relative flex-1 flex flex-col justify-center items-center text-center px-4">
+            {/* Main Visual - Album Art */}
+            <div className="relative flex-1 flex flex-col justify-center items-center text-center px-4 min-h-0">
                 <motion.div 
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     key={currentSong?.id}
-                    className="relative w-64 h-64 lg:w-80 lg:h-80 mb-8 rounded-xl shadow-2xl overflow-hidden"
+                    className="relative w-64 h-64 lg:w-[22rem] lg:h-[22rem] mb-8 rounded-2xl shadow-2xl overflow-hidden shrink-0"
                 >
                     <img 
                         src={currentSong?.cover || "https://via.placeholder.com/400?text=No+Cover"} 
                         alt="Album Art"
                         className="w-full h-full object-cover"
                     />
-                    {/* Subtle pulse effect on album art when playing */}
-                    {isPlaying && (
-                        <motion.div 
-                            animate={{ opacity: [0.3, 0.1, 0.3] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                            className="absolute inset-0 bg-green-400/20 rounded-xl"
-                        />
-                    )}
                 </motion.div>
 
-                <div className="space-y-2">
-                    <h1 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">{currentSong?.title || "Synthetic Dreams"}</h1>
-                    <p className="text-base lg:text-lg text-gray-400 font-medium">{currentSong?.artist || "Ketsa (FMA Demo)"}</p>
+                <div className="space-y-3">
+                    <h1 className="text-3xl lg:text-5xl font-bold text-white tracking-tight leading-tight">{currentSong?.title || "Synthetic Dreams"}</h1>
+                    <p className="text-base lg:text-xl text-gray-400 font-medium">{currentSong?.artist || "Ketsa (FMA Demo)"}</p>
                 </div>
             </div>
 
             {/* Controls Area */}
-            <div className="relative mt-auto w-full max-w-2xl mx-auto space-y-6">
+            <div className="relative mt-8 w-full max-w-3xl mx-auto space-y-8">
                 
                 {/* Progress Bar */}
-                <div className="space-y-2 group/bar">
-                    <div className="flex justify-between text-xs font-mono font-medium text-gray-500">
+                <div className="space-y-3 group/bar">
+                    <div className="flex justify-between text-xs font-mono font-medium text-gray-400">
                         <span>{formatTime(currentTime)}</span>
                         <span>{formatTime(duration)}</span>
                     </div>
-                    <div className="relative h-1.5 w-full bg-gray-800 rounded-full cursor-pointer">
+                    <div className="relative h-1.5 w-full bg-white/10 rounded-full cursor-pointer hover:h-2 transition-all">
                         <div 
                             className="absolute h-full bg-green-500 rounded-full transition-all duration-100 ease-out" 
                             style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
@@ -107,51 +99,60 @@ function App() {
                     </div>
                 </div>
 
-                {/* Main Buttons and Volume */}
-                <div className="flex items-center justify-between">
+                {/* Main Buttons Row */}
+                <div className="flex items-center justify-between pt-2">
                     
-                    {/* Volume Control */}
-                    <div className="flex items-center gap-2 group/vol">
-                        <button onClick={() => dispatch(setVolume(volume === 0 ? 0.75 : 0))}>
-                            <Volume2 size={20} className="text-gray-400 hover:text-white transition-colors" />
+                    {/* Volume Control (Left) */}
+                    <div className="flex items-center gap-3 w-32">
+                        <button 
+                            onClick={() => dispatch(setVolume(volume === 0 ? 0.75 : 0))}
+                            className="text-gray-400 hover:text-white transition-colors"
+                        >
+                            <Volume2 size={20} />
                         </button>
-                        <input 
-                            type="range" 
-                            min="0" max="1" step="0.01" 
-                            value={volume}
-                            onChange={(e) => dispatch(setVolume(e.target.value))}
-                            className="w-20 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500"
-                        />
+                        <div className="relative w-20 h-1 bg-gray-700 rounded-full group/vol cursor-pointer">
+                             <div 
+                                className="absolute h-full bg-green-500 rounded-full" 
+                                style={{ width: `${volume * 100}%` }}
+                             />
+                             <input 
+                                type="range" 
+                                min="0" max="1" step="0.01" 
+                                value={volume}
+                                onChange={(e) => dispatch(setVolume(e.target.value))}
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            />
+                        </div>
                     </div>
 
                     {/* Playback Controls (Center) */}
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-8">
                         <button 
                             onClick={() => dispatch(prevSong())} 
                             className="text-gray-400 hover:text-white transition hover:scale-110 active:scale-95"
                         >
-                            <SkipBack size={28} />
+                            <SkipBack size={32} strokeWidth={1.5} />
                         </button>
                         
                         <button 
                             onClick={() => dispatch(playPause(!isPlaying))}
-                            className="w-14 h-14 bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center text-black transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(34,197,94,0.4)]"
+                            className="w-16 h-16 bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center text-black transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(34,197,94,0.3)]"
                         >
-                            {isPlaying ? <Pause size={24} fill="black" /> : <Play size={24} fill="black" className="ml-1" />}
+                            {isPlaying ? <Pause size={30} fill="black" /> : <Play size={30} fill="black" className="ml-1" />}
                         </button>
 
                         <button 
                             onClick={() => dispatch(nextSong())} 
                             className="text-gray-400 hover:text-white transition hover:scale-110 active:scale-95"
                         >
-                            <SkipForward size={28} />
+                            <SkipForward size={32} strokeWidth={1.5} />
                         </button>
                     </div>
 
-                    {/* Favorite Button (Right aligned) */}
+                    {/* Favorite Button (Right) */}
                     <div className="w-32 flex justify-end">
-                        <button className="text-gray-400 hover:text-green-500 transition">
-                            <Heart size={20} />
+                        <button className="text-gray-400 hover:text-green-500 transition hover:scale-110 active:scale-95">
+                            <Heart size={22} strokeWidth={2} />
                         </button>
                     </div>
                 </div>
@@ -159,45 +160,45 @@ function App() {
         </div>
 
         {/* RIGHT PANEL: PLAYLIST */}
-        <div className="w-[28rem] bg-[#0a0a0a]/80 backdrop-blur-3xl rounded-[2rem] border border-white/5 p-8 flex flex-col">
-            <div className="mb-8">
-                <p className="text-sm font-bold tracking-[0.2em] text-gray-500 uppercase mb-3">Playlist</p>
-                <h2 className="text-2xl font-bold text-white mb-2">Your tracks <span className="text-gray-500 font-normal">({playlist.length} slots)</span></h2>
-                <p className="text-sm text-gray-500">Click a track to play it instantly. Replace audio & cover files with real FMA assets for production.</p>
+        <div className="w-[420px] bg-[#0a0a0a]/90 backdrop-blur-3xl rounded-[2.5rem] border border-white/5 p-8 flex flex-col shrink-0">
+            <div className="mb-6">
+                <p className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase mb-3">Playlist</p>
+                <h2 className="text-2xl font-bold text-white mb-2">Your tracks <span className="text-gray-500 font-medium">({playlist.length} slots)</span></h2>
+                <p className="text-sm text-gray-400 leading-relaxed">Click a track to play it instantly. Replace audio & cover files with real FMA assets for production.</p>
             </div>
 
-            <div className="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto pr-2 space-y-2 custom-scrollbar">
                 {playlist.map((song, i) => {
                     const isActive = currentSong?.id === song.id;
                     return (
                         <div 
                             key={song.id}
                             onClick={() => dispatch(setActiveSong(song))}
-                            className={`group p-3 rounded-xl flex items-center gap-3 cursor-pointer transition-all border ${
+                            className={`group p-3 rounded-xl flex items-center gap-4 cursor-pointer transition-all border ${
                                 isActive 
-                                ? 'bg-[#1a2c20] border-green-700' 
+                                ? 'bg-[#1a2c20] border-green-500/30' 
                                 : 'bg-transparent border-transparent hover:bg-white/5'
                             }`}
                         >
                             <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-800">
                                 <img src={song.cover} alt="art" className="w-full h-full object-cover" />
                                 {isActive && (
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_10px_#86efac]" />
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]" />
                                     </div>
                                 )}
                             </div>
                             
                             <div className="flex-1 min-w-0">
-                                <h4 className={`font-semibold text-sm truncate ${isActive ? 'text-green-300' : 'text-gray-200 group-hover:text-white'}`}>
+                                <h4 className={`font-semibold text-sm truncate ${isActive ? 'text-green-400' : 'text-gray-200 group-hover:text-white'}`}>
                                     {song.title}
                                 </h4>
-                                <p className={`text-xs truncate ${isActive ? 'text-green-400' : 'text-gray-500 group-hover:text-gray-400'}`}>
+                                <p className={`text-xs truncate ${isActive ? 'text-green-500/70' : 'text-gray-500 group-hover:text-gray-400'}`}>
                                     {song.artist}
                                 </p>
                             </div>
 
-                            <span className={`text-xs font-mono ${isActive ? 'text-green-300' : 'text-gray-600 group-hover:text-gray-400'}`}>
+                            <span className={`text-xs font-mono ${isActive ? 'text-green-400' : 'text-gray-600 group-hover:text-gray-400'}`}>
                                 {song.duration || "3:00"}
                             </span>
                         </div>
@@ -212,29 +213,23 @@ function App() {
       
       {/* Global Styles for Scrollbar and Range Input */}
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+        
+        /* Reset for range inputs */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
         
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 12px;
-            width: 12px;
-            border-radius: 50%;
-            background: #ffffff;
-            margin-top: -5px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-            cursor: grab;
         }
-        input[type=range]::-webkit-slider-runnable-track {
-            height: 2px;
-            background: #262626; /* neutral-800 */
-            border-radius: 9999px;
-        }
-        input[type=range]::-webkit-slider-thumb:active {
-            cursor: grabbing;
-        }
+        
+        input[type=range]:focus { outline: none; }
       `}</style>
     </div>
   );
