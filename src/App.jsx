@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Play, Pause, SkipForward, SkipBack, Volume2, Heart, MoreHorizontal, Music2 } from 'lucide-react';
+import { Play, Pause, SkipForward, SkipBack, Volume2, Volume1, VolumeX, Heart, MoreHorizontal, Music2, Plus, Minus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AudioPlayer from './components/AudioPlayer';
 import ThreeScene from './components/ThreeScene';
@@ -10,12 +10,6 @@ function App() {
   const dispatch = useDispatch();
   const { currentSong, isPlaying, playlist, currentTime, duration, volume } = useSelector((state) => state.player);
   
-  useEffect(() => {
-    if (!currentSong && playlist.length > 0) {
-      dispatch(setActiveSong(playlist[0]));
-    }
-  }, [playlist, dispatch, currentSong]);
-
   const handleSeek = (e) => {
     const audio = document.querySelector('audio');
     if(audio) audio.currentTime = e.target.value;
@@ -108,22 +102,36 @@ function App() {
                             onClick={() => dispatch(setVolume(volume === 0 ? 0.75 : 0))}
                             className="text-gray-400 hover:text-white transition-colors"
                         >
-                            <Volume2 size={20} />
+                            {volume === 0 ? (
+                                <VolumeX size={20} />
+                            ) : volume < 0.5 ? (
+                                <Volume1 size={20} />
+                            ) : (
+                                <Volume2 size={20} />
+                            )}
                         </button>
-                        <div className="relative w-20 h-6 flex items-center cursor-pointer">
-                             <div className="absolute w-full h-1 bg-gray-700 rounded-full overflow-hidden">
+                        
+                        <div className="flex items-center gap-2">
+                             <button
+                                onClick={() => dispatch(setVolume(Math.max(0, volume - 0.1)))}
+                                className="text-gray-400 hover:text-white p-1 hover:bg-white/10 rounded-full transition"
+                             >
+                                <Minus size={16} />
+                             </button>
+                             
+                             <div className="w-16 h-1 bg-gray-700 rounded-full overflow-hidden">
                                 <div 
-                                    className="absolute h-full bg-green-500 rounded-full" 
+                                    className="h-full bg-green-500 rounded-full transition-all duration-200" 
                                     style={{ width: `${volume * 100}%` }}
                                 />
                              </div>
-                             <input 
-                                type="range" 
-                                min="0" max="1" step="0.01" 
-                                value={volume}
-                                onChange={(e) => dispatch(setVolume(parseFloat(e.target.value)))}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                            />
+
+                             <button
+                                onClick={() => dispatch(setVolume(Math.min(1, volume + 0.1)))}
+                                className="text-gray-400 hover:text-white p-1 hover:bg-white/10 rounded-full transition"
+                             >
+                                <Plus size={16} />
+                             </button>
                         </div>
                     </div>
 
