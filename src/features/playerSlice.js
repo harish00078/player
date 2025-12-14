@@ -10,50 +10,50 @@ const initialState = {
     {
       id: 1,
       title: "Night Owl",
-      artist: "Broke For Free (FMA Demo)",
-      url: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/WFMU/Broke_For_Free/Directionless_EP/Broke_For_Free_-_01_-_Night_Owl.mp3", 
+      artist: "Broke For Free",
+      url: "/songs/track1.mp3", 
       cover: "https://picsum.photos/id/11/300/300",
       duration: "3:10"
     },
     {
       id: 2,
-      title: "Synthetic Dreams",
-      artist: "Ketsa (FMA Demo)",
-      url: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Ketsa/Raising_Frequency/Ketsa_-_01_-_Synthetic_Dreams.mp3",
+      title: "Lost in the Meadows",
+      artist: "Purrple Cat",
+      url: "/songs/track2.mp3",
       cover: "https://picsum.photos/id/12/300/300",
-      duration: "3:11"
+      duration: "3:35"
     },
     {
       id: 3,
-      title: "Lo-Fi Gateway",
-      artist: "Komiku (FMA Demo)",
-      url: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Komiku/Captain_Glouglou/Komiku_-_02_-_Lo-Fi_Gateway.mp3",
+      title: "For the Love of the Game",
+      artist: "Top-Flow",
+      url: "/songs/track3.mp3",
       cover: "https://picsum.photos/id/13/300/300",
-      duration: "3:12"
+      duration: "2:54"
     },
     {
       id: 4,
-      title: "Neon City",
-      artist: "Scott Holmes (FMA Demo)",
-      url: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Scott_Holmes/Synthwave_Vol_1/Scott_Holmes_-_05_-_Neon_City.mp3",
+      title: "Electronic Future Beats",
+      artist: "QubeSounds",
+      url: "/songs/track4.mp3",
       cover: "https://picsum.photos/id/14/300/300",
-      duration: "3:13"
+      duration: "2:15"
     },
     {
       id: 5,
-      title: "Midnight Drive",
-      artist: "Loyalty Freak Music (FMA Demo)",
-      url: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Loyalty_Freak_Music/TO_CHILL_AND_KILL/Loyalty_Freak_Music_-_04_-_Midnight_Drive.mp3",
+      title: "Lofi Study",
+      artist: "FASSounds",
+      url: "/songs/track5.mp3",
       cover: "https://picsum.photos/id/15/300/300",
-      duration: "3:14"
+      duration: "2:26"
     },
     {
       id: 6,
-      title: "Ocean Echoes",
-      artist: "Audiobinger (FMA Demo)",
-      url: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Audiobinger/The_Garden_State/Audiobinger_-_03_-_Ocean_Echoes.mp3",
+      title: "Ambient Piano",
+      artist: "Good_B_Music",
+      url: "/songs/track6.mp3",
       cover: "https://picsum.photos/id/16/300/300",
-      duration: "3:15"
+      duration: "3:42"
     }
   ],
   currentIndex: 0,

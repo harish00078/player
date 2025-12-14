@@ -103,24 +103,26 @@ function App() {
                 <div className="flex items-center justify-between pt-2">
                     
                     {/* Volume Control (Left) */}
-                    <div className="flex items-center gap-3 w-32">
+                    <div className="flex items-center gap-3 w-32 group/vol">
                         <button 
                             onClick={() => dispatch(setVolume(volume === 0 ? 0.75 : 0))}
                             className="text-gray-400 hover:text-white transition-colors"
                         >
                             <Volume2 size={20} />
                         </button>
-                        <div className="relative w-20 h-1 bg-gray-700 rounded-full group/vol cursor-pointer">
-                             <div 
-                                className="absolute h-full bg-green-500 rounded-full" 
-                                style={{ width: `${volume * 100}%` }}
-                             />
+                        <div className="relative w-20 h-6 flex items-center cursor-pointer">
+                             <div className="absolute w-full h-1 bg-gray-700 rounded-full overflow-hidden">
+                                <div 
+                                    className="absolute h-full bg-green-500 rounded-full" 
+                                    style={{ width: `${volume * 100}%` }}
+                                />
+                             </div>
                              <input 
                                 type="range" 
                                 min="0" max="1" step="0.01" 
                                 value={volume}
-                                onChange={(e) => dispatch(setVolume(e.target.value))}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                onChange={(e) => dispatch(setVolume(parseFloat(e.target.value)))}
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                             />
                         </div>
                     </div>
