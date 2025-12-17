@@ -8,40 +8,44 @@ const AudioPlayer = ({ setAnalyser }) => {
   const sourceRef = useRef(null);
   const dispatch = useDispatch();
   const { currentSong, isPlaying, volume } = useSelector((state) => state.player);
+  const isInitialized = useRef(false);
   
-  // Initialize Audio Context and Analyser
-  useEffect(() => {
-    if (audioRef.current && !audioContextRef.current) {
-        // Create AudioContext
+  // Initialize Audio Context (Lazily on first interaction)
+  const initAudio = () => {
+    if (isInitialized.current || !audioRef.current) return;
+
+    try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioContext();
         audioContextRef.current = audioCtx;
 
-        // Create Analyser
         const analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 256; // Balance between detail and performance
+        analyser.fftSize = 256;
         
-        // Connect Audio Element to Analyser
-        try {
+        // Prevent "already connected" errors by checking if we can wrap
+        if (!sourceRef.current) {
             const source = audioCtx.createMediaElementSource(audioRef.current);
             sourceRef.current = source;
             source.connect(analyser);
             analyser.connect(audioCtx.destination);
-            
-            // Pass analyser up to parent
-            if (setAnalyser) {
-                setAnalyser(analyser);
-            }
-        } catch (e) {
-            console.error("Error connecting audio source:", e);
         }
+        
+        if (setAnalyser) {
+            setAnalyser(analyser);
+        }
+        
+        isInitialized.current = true;
+        console.log("Audio Context Initialized and Connected");
+    } catch (e) {
+        console.error("Audio Context Init Failed:", e);
     }
-  }, [setAnalyser]);
+  };
 
   // Handle Play/Pause and AudioContext Resume
   useEffect(() => {
     if (isPlaying) {
-      // Resume AudioContext if suspended (browser autoplay policy)
+      initAudio(); // Try to init on play
+      
       if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
         audioContextRef.current.resume();
       }

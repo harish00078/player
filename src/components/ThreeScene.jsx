@@ -24,13 +24,13 @@ const AudioReactiveSphere = ({ analyser, isPlaying }) => {
       const average = sum / 30;
       
       // Normalize to a scale factor (e.g., 1.0 to 1.5)
-      scale = 1 + (average / 255) * 0.8;
+      scale = 1 + (average / 255) * 2.5;
       
       // Color shift based on intensity
       colorShift = average / 255;
     } else {
         // Idle animation
-        scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+        scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.1;
     }
 
     // Smooth interpolation for scale
