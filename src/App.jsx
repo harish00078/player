@@ -78,18 +78,27 @@ function App() {
                         <span>{formatTime(currentTime)}</span>
                         <span>{formatTime(duration)}</span>
                     </div>
-                    <div className="relative h-1.5 w-full bg-white/10 rounded-full cursor-pointer hover:h-2 transition-all">
-                        <div 
-                            className="absolute h-full bg-green-500 rounded-full transition-all duration-100 ease-out" 
-                            style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
-                        />
+                    
+                    {/* Interaction Container - Height 4 (1rem/16px) for easier clicking */}
+                    <div className="relative w-full h-4 flex items-center cursor-pointer">
+                        
+                        {/* Visual Track Background */}
+                        <div className="absolute w-full h-1.5 bg-white/10 rounded-full group-hover:h-2 transition-all duration-200">
+                             {/* Filled Progress */}
+                            <div 
+                                className="absolute h-full bg-green-500 rounded-full pointer-events-none" 
+                                style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
+                            />
+                        </div>
+
+                        {/* Hidden Input Range - High Z-index, Full Container Size */}
                         <input 
                             type="range" 
                             min="0" 
                             max={duration || 100} 
                             value={currentTime} 
                             onChange={handleSeek}
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                         />
                     </div>
                 </div>
@@ -238,6 +247,11 @@ function App() {
         
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: white;
+            margin-top: -6px; /* You need to specify a margin in Chrome, but since we are opacity 0 it matters less visually, but good for hit testing */
         }
         
         input[type=range]:focus { outline: none; }
