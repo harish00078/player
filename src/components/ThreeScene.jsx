@@ -47,7 +47,6 @@ const AudioReactiveSphere = ({ analyser, isPlaying }) => {
     const baseColor = new THREE.Color("#10b981"); // Green-500
     const activeColor = new THREE.Color("#34d399"); // Green-400
     meshRef.current.material.color.lerp(isPlaying ? activeColor : baseColor, 0.05);
-    meshRef.current.material.wireframe = true;
   });
 
   return (
@@ -56,7 +55,7 @@ const AudioReactiveSphere = ({ analyser, isPlaying }) => {
         color="#10b981" 
         wireframe 
         transparent 
-        opacity={0.3} 
+        opacity={0.8} 
       />
     </Icosahedron>
   );
@@ -111,10 +110,10 @@ const ReactiveParticles = ({ analyser, isPlaying }) => {
                 />
             </bufferGeometry>
             <pointsMaterial 
-                size={0.05} 
+                size={0.12} 
                 color="#4ade80" 
                 transparent 
-                opacity={0.4} 
+                opacity={0.8} 
                 sizeAttenuation={true} 
             />
         </points>
