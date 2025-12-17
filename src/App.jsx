@@ -35,7 +35,7 @@ function App() {
       <div className="relative z-10 w-full max-w-[1440px] h-[90vh] p-4 lg:p-6 flex gap-4 lg:gap-8">
         
         {/* LEFT PANEL: PLAYER FOCUS */}
-        <div className="flex-1 bg-[#0a0a0a]/60 backdrop-blur-3xl rounded-[2.5rem] border border-white/5 p-8 lg:p-12 flex flex-col relative overflow-hidden shadow-2xl">
+        <div className="flex-1 bg-[#0a0a0a]/30 backdrop-blur-3xl rounded-[2.5rem] border border-white/5 p-8 lg:p-12 flex flex-col relative overflow-hidden shadow-2xl">
             
             {/* Header */}
             <div className="relative flex justify-between items-center mb-6">
@@ -171,7 +171,7 @@ function App() {
         </div>
 
         {/* RIGHT PANEL: PLAYLIST */}
-        <div className="w-[420px] bg-[#0a0a0a]/60 backdrop-blur-3xl rounded-[2.5rem] border border-white/5 p-8 flex flex-col shrink-0">
+        <div className="w-[420px] bg-[#0a0a0a]/30 backdrop-blur-3xl rounded-[2.5rem] border border-white/5 p-8 flex flex-col shrink-0">
             <div className="mb-6">
                 <p className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase mb-3">Playlist</p>
                 <h2 className="text-2xl font-bold text-white mb-2">Your tracks <span className="text-gray-500 font-medium">({playlist.length} slots)</span></h2>
