@@ -9,6 +9,7 @@ import { playPause, nextSong, prevSong, setVolume, setActiveSong } from './featu
 function App() {
   const dispatch = useDispatch();
   const { currentSong, isPlaying, playlist, currentTime, duration, volume } = useSelector((state) => state.player);
+  const [analyser, setAnalyser] = React.useState(null);
   
   const handleSeek = (e) => {
     const audio = document.querySelector('audio');
@@ -27,7 +28,7 @@ function App() {
       
       {/* Background Layer */}
       <div className="absolute inset-0 z-0">
-        <ThreeScene isPlaying={isPlaying} />
+        <ThreeScene isPlaying={isPlaying} analyser={analyser} />
       </div>
 
       {/* Main Container */}
@@ -219,7 +220,7 @@ function App() {
 
       </div>
 
-      <AudioPlayer />
+      <AudioPlayer setAnalyser={setAnalyser} />
       
       {/* Global Styles for Scrollbar and Range Input */}
       <style>{`
